@@ -121,6 +121,22 @@ namespace WebApi.Controllers
             }
         }
 
+        [HttpPost()]
+        [Route("EnterRoom")]
+        public IActionResult EnterRoom([FromBody]int roomId, int playerId)
+        {
+            try{
+                // save 
+                _userService.EnterRoom(playerId, roomId);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

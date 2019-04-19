@@ -13,6 +13,7 @@ namespace WebApi.Services
         User GetById(int id);
         User Create(User user, string password);
         void Update(User user, string password = null);
+        void EnterRoom(int userId, int roomId);
         void Delete(int id);
     }
 
@@ -148,5 +149,39 @@ namespace WebApi.Services
 
             return true;
         }
+
+        public void EnterRoom(int userId, int roomId)
+        {
+            if (!_context.Rooms.Any(x => x.Id == roomId))
+                throw new AppException("Room with id \"" + roomId + "\" does not exist...");
+
+            if (!_context.Users.Any(x => x.Id == userId))
+                throw new AppException("User with id \"" + userId + "\" does not exist...");
+
+            var room = _context.Rooms.First(x => x.Id == roomId);
+            var user = _context.Users.First(x => x.Id == userId);
+
+            if (room.IsFull())
+            {
+                room.StartGame();
+            }
+
+            room.Players.Add(user);
+        }
+
+        public void LeaveRoom(int userId, int roomId)
+        {
+            if (!_context.Rooms.Any(x => x.Id == roomId))
+                throw new AppException("Room with id \"" + roomId + "\" does not exist...");
+
+            if (!_context.Users.Any(x => x.Id == userId))
+                throw new AppException("User with id \"" + userId + "\" does not exist...");
+
+            var room = _context.Rooms.First(x => x.Id == roomId);
+            var user = _context.Users.First(x => x.Id == userId);
+
+            room.Players.Remove(user);
+        }
+
     }
 }

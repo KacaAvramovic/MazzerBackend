@@ -21,7 +21,7 @@ namespace WebApi.Entities
 
         }
 
-        public Game(List<User> users = null)
+        public Game(List<User> users)
         {
             foreach (var player in users)
             {

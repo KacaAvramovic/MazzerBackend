@@ -14,7 +14,7 @@ namespace WebApi.Entities
         [NotMapped]
         public Game Game { get; set; }
 
-        IState State { get; set; }
+        IState<Room> State { get; set; }
 
         public Room(string name, int maxPlayersCount)
         {
@@ -23,9 +23,20 @@ namespace WebApi.Entities
             Players = new List<User>();
         }
 
-        internal void SetState(IState state)
+        internal void SetState(IState<Room> state)
         {
             State = state;
+        }
+        
+        internal bool IsFull()
+        {
+            return MaxPlayersCount >= Players.Count;
+        }
+
+        internal bool StartGame()
+        {
+            Game = new Game(Players);
+            return true;
         }
     }
 }

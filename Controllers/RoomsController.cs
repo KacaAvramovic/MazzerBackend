@@ -35,7 +35,6 @@ namespace WebApi.Controllers
         [HttpPost()]
         public IActionResult Create([FromBody]Room room)
         {
-
             LobbyState lobbyState = new LobbyState();
             lobbyState.DoAction(room);
 

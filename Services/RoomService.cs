@@ -101,6 +101,8 @@ namespace WebApi.Services
             return room;
         }
 
+
+
         public void Delete(int id)
         {
             var room = _context.Rooms.Find(id);
